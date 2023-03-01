@@ -32,15 +32,21 @@ connection.once('open', async() => {
     console.log(thought.reactions);
 
     // test User seed
-    const user = new User();
-    user.username = 'ryan';
-    user.email = 'ryan@ryan.com';
-    user.thoughts = [thought];
-    await user.validate();
+    const userOne = new User();
+    userOne.username = 'ryan';
+    userOne.email = 'ryan@ryan.com';
+    userOne.thoughts = [thought];
+    await userOne.validate();
+
+    const userTwo = new User();
+    userTwo.username = 'bond';
+    userTwo.email = 'james@bond.com';
+    await userTwo.validate();
 
     // test adding seed data
     await Thought.collection.insertOne(thought);
-    await User.collection.insertOne(user);
+    await User.collection.insertOne(userOne);
+    await User.collection.insertOne(userTwo);
     
 
 
