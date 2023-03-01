@@ -1,24 +1,32 @@
 const connection = require('../config/connection');
-const { User } = require('../models');
+const { User, Thought } = require('../models');
 
 connection.on('error', (err) => err);
 
 connection.once('open', async() => {
     console.log('connected');
 
-    // Drop existing users
+    // Drop existing users and thoughts
     await User.deleteMany({});
+    await Thought.deleteMany({});
 
-    // test seed
+    // test Thought seed
+    const thought = new Thought();
+    thought.thoughtText = 'hello friend';
+    thought.username = 'ryan';
+
+    // test User seed
     const user = new User();
     user.username = 'ryan';
     user.email = 'ryan@ryan.com';
-
-    // test validate
+    user.thoughts = [thought];
     await user.validate();
 
-    // if valid, insert into collection
+    // test adding seed data
+    await Thought.collection.insertOne(thought);
     await User.collection.insertOne(user);
+    
+
 
     console.info('Seeding complete! 🌱');
     process.exit(0);
