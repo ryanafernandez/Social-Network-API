@@ -15,6 +15,22 @@ connection.once('open', async() => {
     thought.thoughtText = 'hello friend';
     thought.username = 'ryan';
 
+    // test Reaction Seed
+    const reactions = [
+        {
+            reactionBody: 'Great thought!',
+            username: 'ryan',
+        },
+        {
+            reactionBody: 'Just kidding, that was not very good',
+            username: 'ryan',
+        }
+    ];
+
+    thought.reactions = reactions;
+    console.log(reactions);
+    console.log(thought.reactions);
+
     // test User seed
     const user = new User();
     user.username = 'ryan';
