@@ -10,44 +10,52 @@ connection.once('open', async() => {
     await User.deleteMany({});
     await Thought.deleteMany({});
 
-    // test Thought seed
-    const thought = new Thought();
-    thought.thoughtText = 'hello friend';
-    thought.username = 'ryan';
+    // Thought seeds
+    const thoughts = [];
+    const thoughtOne = new Thought();
+    thoughtOne.thoughtText = 'hello friend';
+    thoughtOne.username = 'ryan';
 
-    // test Reaction Seed
+    const thoughtTwo = new Thought();
+    thoughtTwo.thoughtText = 'I am here!';
+    thoughtTwo.username = 'bond';
+
+    // Reaction Seeds
     const reactions = [
         {
             reactionBody: 'Great thought!',
-            username: 'ryan',
+            username: 'bond',
         },
         {
-            reactionBody: 'Just kidding, that was not very good',
+            reactionBody: 'Thanks bond!',
             username: 'ryan',
         }
     ];
 
-    thought.reactions = reactions;
-    console.log(reactions);
-    console.log(thought.reactions);
+    thoughtOne.reactions = reactions;
+    thoughts.push(thoughtOne);
+    thoughts.push(thoughtTwo);
 
-    // test User seed
+    // User seeds
+    const users = [];
     const userOne = new User();
     userOne.username = 'ryan';
     userOne.email = 'ryan@ryan.com';
-    userOne.thoughts = [thought];
+    userOne.thoughts = [thoughtOne];
     await userOne.validate();
 
     const userTwo = new User();
     userTwo.username = 'bond';
     userTwo.email = 'james@bond.com';
+    userTwo.thoughts = [thoughtTwo];
     await userTwo.validate();
 
-    // test adding seed data
-    await Thought.collection.insertOne(thought);
-    await User.collection.insertOne(userOne);
-    await User.collection.insertOne(userTwo);
-    
+    users.push(userOne);
+    users.push(userTwo);
+
+    // Insert seed data
+    await Thought.collection.insertMany(thoughts);
+    await User.collection.insertMany(users);
 
 
     console.info('Seeding complete! 🌱');
