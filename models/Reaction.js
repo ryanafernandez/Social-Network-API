@@ -18,6 +18,7 @@ const reactionSchema = new Schema(
         createdAt: {
             type: Date,
             default: Date.now,
+            get: formatTimestamp
         },
     },
     {
@@ -27,5 +28,9 @@ const reactionSchema = new Schema(
         _id: false,
     }
 );
+
+function formatTimestamp(timestamp) {
+    return `${timestamp.getMonth()+1}/${timestamp.getDate()}/${timestamp.getFullYear()} ${timestamp.getHours()}:${timestamp.getMinutes()}:${timestamp.getSeconds()}`;
+}
 
 module.exports = reactionSchema;
